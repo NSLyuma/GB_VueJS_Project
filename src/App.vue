@@ -19,6 +19,8 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 #app {
@@ -27,6 +29,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #331a6e;
-  margin-top: 60px;
+}
+
+img {
+  width: 150px;
+  height: 150px;
 }
 </style>
