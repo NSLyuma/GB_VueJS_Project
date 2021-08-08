@@ -8,15 +8,15 @@
             <input
               class="mb20"
               type="text"
+              id="operand1"
               placeholder="operand 1"
               v-model.number="operand1"
-              ref="op1"
             />
             <input
               type="text"
+              id="operand2"
               placeholder="operand 2"
               v-model.number="operand2"
-              ref="op2"
             />
           </div>
 
@@ -66,9 +66,9 @@
               class="inp-radio"
               type="radio"
               name="operand"
-              value="1"
-              v-model="change"
-              @change="onFocus1()"
+              value="operand1"
+              v-model="operand"
+              @change="focusInput($event)"
             />
             Operand 1
           </label>
@@ -77,9 +77,9 @@
               class="inp-radio"
               type="radio"
               name="operand"
-              value="2"
-              v-model="change"
-              @change="onFocus2()"
+              value="operand2"
+              v-model="operand"
+              @change="focusInput($event)"
             />
             Operand 2
           </label>
@@ -105,7 +105,7 @@ export default {
       operations: ["+", "-", "*", "/", "^", "i"],
       numbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 0],
       checked: false,
-      change: "1",
+      operand: "",
     };
   },
 
@@ -145,6 +145,7 @@ export default {
     mul() {
       this.result = this.operand1 * this.operand2;
     },
+
     div() {
       const { operand1, operand2 } = this;
       if (operand2 === 0 || !operand2) {
@@ -154,9 +155,11 @@ export default {
         this.result = operand1 / operand2;
       }
     },
+
     pow() {
       this.result = Math.pow(this.operand1, this.operand2);
     },
+
     int() {
       const { operand1, operand2 } = this;
       if (operand2 === 0 || !operand2) {
@@ -166,46 +169,25 @@ export default {
         this.result = parseInt(operand1 / operand2);
       }
     },
+
     clear() {
       this.operand1 = "";
       this.operand2 = "";
       this.result = 0;
+      this.error = "";
     },
-    onFocus1() {
-      //криво, но пока по-другому не поняла, как можно
-      this.$refs.op1.focus();
-    },
-    onFocus2() {
-      this.$refs.op2.focus();
-    },
-    inputNumber(num) {
-      let input = "";
-      if (this.change === "1") {
-        input = "operand1";
-      } else {
-        input = "operand2";
-      }
-      this[input] += String(num);
-      this[input] = parseInt(this[input]);
-    },
-    deleteNumber() {
-      let input = "";
-      if (this.change === "1") {
-        input = "operand1";
-      } else {
-        input = "operand2";
-      }
 
-      let str = String(this[input]);
-      if (str.length > 1) {
-        this[input] = parseInt(str.slice(0, -1));
-      } else {
-        if (input == "operand1") {
-          this.operand1 = "";
-        } else {
-          this.operand2 = "";
-        }
-      }
+    focusInput(event) {
+      const input = this.$el.querySelector(`#${event.target.value}`);
+      input.focus();
+    },
+
+    inputNumber(num) {
+      this[this.operand] = +(this[this.operand] += String(num));
+    },
+
+    deleteNumber() {
+      this[this.operand] = +String(this[this.operand]).slice(0, -1);
     },
   },
 };
