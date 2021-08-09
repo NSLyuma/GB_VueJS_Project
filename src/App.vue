@@ -10,18 +10,22 @@
       <!-- addNewPayment из AddPaymentForm.vue - methods - addPayment(), addData придумывается здесь -->
       <PaymentsDisplay :list="paymentsList" />
       <div>Total value: {{ totalValue }}</div>
+      <Pagination :listLength="paymentsList.length" />
     </div>
   </div>
 </template>
 
 <script>
 import AddPaymentForm from "./components/AddPaymentForm.vue";
+import Pagination from "./components/Pagination.vue";
 import PaymentsDisplay from "./components/PaymentsDisplay.vue";
+
 export default {
   name: "App",
   components: {
     AddPaymentForm,
     PaymentsDisplay,
+    Pagination,
   },
   data() {
     return {
