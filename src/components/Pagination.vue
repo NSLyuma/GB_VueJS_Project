@@ -12,16 +12,12 @@
 export default {
   name: "Pagination",
   props: {
-    // list: {
-    //   type: Array,
-    //   default: () => [],
-    // },
     listLength: Number,
   },
-  computed: {
-    allItemsOnPage() {
-      return this.list.length;
-    },
+  data() {
+    return {
+      numberOfItems: 5,
+    };
   },
 };
 </script>
