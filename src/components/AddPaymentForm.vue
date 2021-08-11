@@ -16,8 +16,12 @@
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "AddPaymentForm",
+  props: {
+    currentId: Number,
+  },
   data() {
     return {
+      id: "",
       date: "",
       category: "",
       value: "",
@@ -28,6 +32,7 @@ export default {
     addPayment() {
       const { category, value } = this;
       const data = {
+        id: this.currentId + 1,
         date: this.date || this.getCurrentDate,
         category,
         value,

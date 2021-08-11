@@ -2,7 +2,7 @@
   <div class="list">
     <div class="item" v-for="(item, idx) in list" :key="idx">
       <span
-        >{{ idx + 1 }}. {{ item.date }} {{ item.category }}
+        >{{ item.id }}. {{ item.date }} {{ item.category }}
         {{ item.value }}</span
       >
     </div>

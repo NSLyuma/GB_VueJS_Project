@@ -6,12 +6,21 @@
       <template v-else>Hide form</template>
     </button>
     <div class="content">
-      <AddPaymentForm @addNewPayment="addData" v-if="!isHidden" />
+      <AddPaymentForm
+        @addNewPayment="addData"
+        :currentId="currentItems[currentItems.length - 1].id"
+        v-if="!isHidden"
+      />
       <!-- addNewPayment из AddPaymentForm.vue - methods - addPayment(), addData придумывается здесь -->
-      <PaymentsDisplay :list="getPaymentsList" />
+      <PaymentsDisplay :list="currentItems" />
       <!-- <PaymentsDisplay :list="paymentsList" /> paymentsList раньше хранилось в data, теперь мы вместо него берём getPaymentsList из vuex-хранилища -->
       <div>Total value: {{ totalValue }}</div>
-      <Pagination :listLength="getPaymentsList.length" />
+      <Pagination
+        :listLength="getPaymentsList.length"
+        :currentPage="currentPage"
+        :numberOfItems="numberOfItems"
+        @onClick="changePage"
+      />
     </div>
   </div>
 </template>
@@ -31,7 +40,10 @@ export default {
   },
   data() {
     return {
+      paymentsList: [],
       isHidden: true,
+      currentPage: 1,
+      numberOfItems: 5,
     };
   },
   methods: {
@@ -76,6 +88,9 @@ export default {
       // this.paymentsList.push(newPayment);
       this.addDataToPaymentList(newPayment);
     },
+    changePage(page) {
+      this.currentPage = page;
+    },
   },
   computed: {
     ...mapGetters(["getFullPaymentsValue", "getPaymentsList"]),
@@ -83,13 +98,20 @@ export default {
       // return this.paymentsList.reduce((acc, cur) => (acc += cur.value), 0);
       return this.getFullPaymentsValue;
     },
+    currentItems() {
+      const { currentPage, numberOfItems } = this;
+      return this.getPaymentsList.slice(
+        numberOfItems * (currentPage - 1),
+        numberOfItems * (currentPage - 1) + numberOfItems
+      );
+    },
   },
   created() {
     // this.paymentsList = this.fetchData();
     // this.$store.commit("setPaymentListData", this.fetchData()); //commit - для вызова mutations, dispatch - для вызова actions
     // верхний вариант - когда не импортирован mapMutations, нижний - с импортом
     // this.setPaymentListData(this.fetchData());
-    this.fetchListData();
+    this.fetchListData(this.currentPage);
   },
 };
 </script>

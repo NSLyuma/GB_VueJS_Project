@@ -1,15 +1,15 @@
 <template>
-  <div>
-    <div>
-      {{ numberOfPages }}
+  <div class="page-box">
+    <button class="page" @click="onClick(currentPage - 1)">&#60;</button>
+    <div
+      class="page page-m"
+      v-for="page in amountOfPages"
+      :key="page"
+      @click="onClick(page)"
+    >
+      {{ page }}
     </div>
-    <div class="pagination">
-      <button>&#60;</button>
-      <div v-for="(page, index) in numberOfPages" :key="index">
-        <span>{{ page }}</span>
-      </div>
-      <button>&#62;</button>
-    </div>
+    <button class="page" @click="onClick(currentPage + 1)">&#62;</button>
   </div>
 </template>
 
@@ -18,15 +18,17 @@ export default {
   name: "Pagination",
   props: {
     listLength: Number,
+    currentPage: Number,
+    numberOfItems: Number,
   },
-  data() {
-    return {
-      numberOfItems: 5,
-    };
+  methods: {
+    onClick(page) {
+      if (page < 1 || page > this.amountOfPages) return;
+      this.$emit("onClick", page);
+    },
   },
-  methods: {},
   computed: {
-    numberOfPages() {
+    amountOfPages() {
       return Math.ceil(this.listLength / this.numberOfItems);
     },
   },
@@ -34,7 +36,14 @@ export default {
 </script>
 
 <style scoped>
-.pagination {
+.page-box {
   display: flex;
+}
+.page {
+  cursor: pointer;
+}
+.page-m {
+  margin-right: 5px;
+  margin-left: 5px;
 }
 </style>
