@@ -10,7 +10,12 @@
       <!-- addNewPayment из AddPaymentForm.vue - methods - addPayment(), addData придумывается здесь -->
       <PaymentsDisplay :list="paymentsList" />
       <div>Total value: {{ totalValue }}</div>
-      <Pagination :listLength="paymentsList.length" />
+      <Pagination
+        :listLength="paymentsList.length"
+        :currentPage="currentPage"
+        :numberOfItems="numberOfItems"
+        @onClick="changePage"
+      />
     </div>
   </div>
 </template>
@@ -31,6 +36,8 @@ export default {
     return {
       paymentsList: [],
       isHidden: true,
+      currentPage: 1,
+      numberOfItems: 5,
     };
   },
   methods: {
@@ -51,11 +58,29 @@ export default {
           category: "Pets",
           value: 300,
         },
+        {
+          date: "06.08.2021",
+          category: "Food",
+          value: 100,
+        },
+        {
+          date: "06.08.2021",
+          category: "Sport",
+          value: 200,
+        },
+        {
+          date: "06.08.2021",
+          category: "Pets",
+          value: 300,
+        },
       ];
     },
     addData(newPayment) {
       //newPayment - аргумент, который хотим принимать из компонента AddPaymentForm
       this.paymentsList.push(newPayment);
+    },
+    changePage(page) {
+      this.currentPage = page;
     },
   },
   computed: {
