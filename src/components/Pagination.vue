@@ -1,10 +1,15 @@
 <template>
   <div>
-    <button>&#60;</button>
     <div>
-      {{ listLength }}
+      {{ numberOfPages }}
     </div>
-    <button>&#62;</button>
+    <div class="pagination">
+      <button>&#60;</button>
+      <div v-for="(page, index) in numberOfPages" :key="index">
+        <span>{{ page }}</span>
+      </div>
+      <button>&#62;</button>
+    </div>
   </div>
 </template>
 
@@ -12,16 +17,24 @@
 export default {
   name: "Pagination",
   props: {
-    // list: {
-    //   type: Array,
-    //   default: () => [],
-    // },
     listLength: Number,
   },
+  data() {
+    return {
+      numberOfItems: 5,
+    };
+  },
+  methods: {},
   computed: {
-    allItemsOnPage() {
-      return this.list.length;
+    numberOfPages() {
+      return Math.ceil(this.listLength / this.numberOfItems);
     },
   },
 };
 </script>
+
+<style scoped>
+.pagination {
+  display: flex;
+}
+</style>
