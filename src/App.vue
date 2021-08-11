@@ -8,7 +8,7 @@
     <div class="content">
       <AddPaymentForm @addNewPayment="addData" v-if="!isHidden" />
       <!-- addNewPayment из AddPaymentForm.vue - methods - addPayment(), addData придумывается здесь -->
-      <PaymentsDisplay :list="paymentsList" />
+      <PaymentsDisplay :list="currentItems" />
       <div>Total value: {{ totalValue }}</div>
       <Pagination
         :listLength="paymentsList.length"
@@ -73,6 +73,36 @@ export default {
           category: "Pets",
           value: 300,
         },
+        {
+          date: "06.08.2021",
+          category: "Food",
+          value: 100,
+        },
+        {
+          date: "06.08.2021",
+          category: "Sport",
+          value: 200,
+        },
+        {
+          date: "06.08.2021",
+          category: "Pets",
+          value: 300,
+        },
+        {
+          date: "06.08.2021",
+          category: "Food",
+          value: 100,
+        },
+        {
+          date: "06.08.2021",
+          category: "Sport",
+          value: 200,
+        },
+        {
+          date: "06.08.2021",
+          category: "Pets",
+          value: 300,
+        },
       ];
     },
     addData(newPayment) {
@@ -86,6 +116,13 @@ export default {
   computed: {
     totalValue() {
       return this.paymentsList.reduce((acc, cur) => (acc += cur.value), 0);
+    },
+    currentItems() {
+      const { currentPage, numberOfItems } = this;
+      return this.paymentsList.slice(
+        numberOfItems * (currentPage - 1),
+        numberOfItems * (currentPage - 1) + numberOfItems
+      );
     },
   },
   created() {
