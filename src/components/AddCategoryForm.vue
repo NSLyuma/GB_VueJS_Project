@@ -19,6 +19,7 @@ export default {
     ...mapMutations(["addNewCategory"]),
     addCategory() {
       this.addNewCategory(this.category);
+      this.category = "";
     },
   },
 };
