@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 import AddPaymentForm from "./components/AddPaymentForm.vue";
 import Pagination from "./components/Pagination.vue";
 import PaymentsDisplay from "./components/PaymentsDisplay.vue";
@@ -29,73 +29,10 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["setPaymentsListData"]),
-    fetchData() {
-      return [
-        {
-          id: 1,
-          date: "13.08.2021",
-          category: "Food",
-          value: 100,
-        },
-        {
-          id: 2,
-          date: "13.08.2021",
-          category: "Food",
-          value: 200,
-        },
-        {
-          id: 3,
-          date: "13.08.2021",
-          category: "Food",
-          value: 300,
-        },
-        {
-          id: 4,
-          date: "13.08.2021",
-          category: "Food",
-          value: 400,
-        },
-        {
-          id: 5,
-          date: "13.08.2021",
-          category: "Food",
-          value: 500,
-        },
-        {
-          id: 6,
-          date: "13.08.2021",
-          category: "Food",
-          value: 100,
-        },
-        {
-          id: 7,
-          date: "13.08.2021",
-          category: "Food",
-          value: 200,
-        },
-        {
-          id: 8,
-          date: "13.08.2021",
-          category: "Food",
-          value: 300,
-        },
-        {
-          id: 9,
-          date: "13.08.2021",
-          category: "Food",
-          value: 400,
-        },
-        {
-          id: 10,
-          date: "13.08.2021",
-          category: "Food",
-          value: 500,
-        },
-      ];
-    },
+    ...mapMutations(["setPaymentsListData", "addDataToPaymentsList"]),
+    ...mapActions(["fetchPaymentsData"]),
     addNewData(newItem) {
-      this.getPaymentsList.push(newItem);
+      this.addDataToPaymentsList(newItem);
     },
     changePage(page) {
       this.cur = page;
@@ -109,8 +46,7 @@ export default {
     },
   },
   created() {
-    // this.paymentsList = this.fetchData();
-    this.setPaymentsListData(this.fetchData());
+    this.fetchPaymentsData();
   },
 };
 </script>
