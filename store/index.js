@@ -66,9 +66,12 @@ export const itemsDB = [
   },
 ];
 
+export const categoriesDB = ["Sport", "Food", "Pets", "Transport", "Mobile"];
+
 export default new Vuex.Store({
     state: {
         paymentsList: [],
+        categories: [],
     },
     mutations: {
         setPaymentsListData(state, payload) {
@@ -77,18 +80,29 @@ export default new Vuex.Store({
         addDataToPaymentsList(state, payload) {
             state.paymentsList.push(payload);
         },
+        setCategoriesListData(state, payload) {
+            state.categories = payload;
+        },
     },
     getters: {
         getPaymentsList: state => state.paymentsList,
         getTotalValue: state => state.paymentsList.reduce((acc, cur) => (acc += cur.value), 0),
+        getCategoryList: state => state.categories,
     },
     actions: {
         fetchPaymentsData({commit}) {
             return new Promise((resolve) => {
                 const items = itemsDB;
-                  resolve(items);
+                    resolve(items);
             })
             .then(res => commit("setPaymentsListData", res))
-        }
+        },
+        fetchCategoryList({commit}) {
+            return new Promise((resolve) => {
+                const categories = categoriesDB;
+                    resolve(categories);
+            })
+            .then(res => commit("setCategoriesListData", res))
+        },
     },
 });

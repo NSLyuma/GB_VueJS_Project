@@ -1,13 +1,18 @@
 <template>
   <div>
     <input type="date" v-model="date" />
-    <input type="text" v-model="category" />
+    <select v-model="category" v-if="options">
+      <option v-for="option in options" :value="option" :key="option">
+        {{ option }}
+      </option>
+    </select>
     <input type="text" v-model.number="value" />
     <button @click="addNewItem">Add new cost</button>
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "AddPaymentForm",
   data() {
@@ -19,6 +24,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["fetchCategoryList"]),
     addNewItem() {
       const { category, value } = this;
       let data = {
@@ -31,6 +37,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["getCategoryList"]),
     getCurrentDate() {
       const today = new Date();
       const d = today.getDate();
@@ -38,6 +45,12 @@ export default {
       const y = today.getFullYear();
       return `${d}.${m}.${y}`;
     },
+    options() {
+      return this.getCategoryList;
+    },
+  },
+  created() {
+    this.fetchCategoryList();
   },
 };
 </script>
