@@ -95,7 +95,7 @@ export default {
       ];
     },
     addNewData(newItem) {
-      this.paymentsList.push(newItem);
+      this.getPaymentsList.push(newItem);
     },
     changePage(page) {
       this.cur = page;
