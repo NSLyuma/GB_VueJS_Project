@@ -83,6 +83,9 @@ export default new Vuex.Store({
         setCategoriesListData(state, payload) {
             state.categories = payload;
         },
+        addNewCategory(state, payload) {
+            state.categories.push(payload);
+        }
     },
     getters: {
         getPaymentsList: state => state.paymentsList,

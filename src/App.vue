@@ -2,6 +2,7 @@
   <div id="app">
     <header>My personal costs</header>
     <AddPaymentForm @addItem="addNewData" />
+    <AddCategoryForm />
     <PaymentsDisplay :list="currentItems" />
     <div>Total value: {{ getTotalValue }}</div>
     <Pagination
@@ -15,12 +16,14 @@
 
 <script>
 import { mapMutations, mapGetters, mapActions } from "vuex";
+import AddCategoryForm from "./components/AddCategoryForm.vue";
 import AddPaymentForm from "./components/AddPaymentForm.vue";
 import Pagination from "./components/Pagination.vue";
 import PaymentsDisplay from "./components/PaymentsDisplay.vue";
+
 export default {
   name: "App",
-  components: { PaymentsDisplay, AddPaymentForm, Pagination },
+  components: { PaymentsDisplay, AddPaymentForm, Pagination, AddCategoryForm },
   data() {
     return {
       paymentsList: [],
