@@ -1,27 +1,24 @@
 <template>
   <div>
-    <input type="date" placeholder="Date" v-model="date" />
+    <input type="date" v-model="date" />
     <select v-model="category" v-if="options">
       <option v-for="option in options" :value="option" :key="option">
         {{ option }}
       </option>
     </select>
-    <!-- <input type="text" placeholder="Category" v-model="category" /> -->
-    <input type="text" placeholder="Value" v-model.number="value" />
-    <button @click="addPayment">Add payment</button>
+    <input type="text" v-model.number="value" />
+    <button @click="addNewItem">Add new cost</button>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "AddPaymentForm",
-  props: {
-    currentId: Number,
-  },
   data() {
     return {
-      id: "",
+      id: 11,
       date: "",
       category: "",
       value: "",
@@ -29,15 +26,15 @@ export default {
   },
   methods: {
     ...mapActions(["fetchCategoryList"]),
-    addPayment() {
+    addNewItem() {
       const { category, value } = this;
-      const data = {
-        id: this.currentId + 1,
+      let data = {
+        id: this.id++,
         date: this.date || this.getCurrentDate,
         category,
         value,
       };
-      this.$emit("addNewPayment", data); //1 аргумент - событие эмита (придумывается название), 2 аргумент - что надо передать (их может быть несколько, может быть объект)
+      this.$emit("addItem", data);
     },
   },
   computed: {
