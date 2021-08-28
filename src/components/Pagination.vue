@@ -1,15 +1,22 @@
 <template>
-  <div class="page-box">
-    <button class="page" @click="onClick(currentPage - 1)">&#60;</button>
+  <div :class="[$style.wrp]">
+    <button :class="[$style.btn]" @click="onClick(currentPage - 1)">
+      &#60;
+    </button>
     <div
-      class="page page-m"
-      v-for="page in amountOfPages"
+      :class="{
+        [$style.active]: currentPage === page,
+      }"
+      v-for="page in numberOfPages"
       :key="page"
-      @click="onClick(page)"
     >
-      {{ page }}
+      <div :class="[$style.page]" @click="onClick(page)">
+        {{ page }}
+      </div>
     </div>
-    <button class="page" @click="onClick(currentPage + 1)">&#62;</button>
+    <button :class="[$style.btn]" @click="onClick(currentPage + 1)">
+      &#62;
+    </button>
   </div>
 </template>
 
@@ -23,27 +30,37 @@ export default {
   },
   methods: {
     onClick(page) {
-      if (page < 1 || page > this.amountOfPages) return;
-      this.$emit("onClick", page);
+      if (page < 1 || page > this.numberOfPages) return;
+      else {
+        this.$emit("onClick", page);
+      }
     },
   },
   computed: {
-    amountOfPages() {
+    numberOfPages() {
       return Math.ceil(this.listLength / this.numberOfItems);
     },
   },
 };
 </script>
 
-<style scoped>
-.page-box {
+<style module lang="scss">
+.wrp {
   display: flex;
+  & > div {
+    &.active {
+      background: #ccc;
+    }
+  }
 }
-.page {
+
+.btn {
+  padding: 10px;
   cursor: pointer;
 }
-.page-m {
-  margin-right: 5px;
-  margin-left: 5px;
+
+.page {
+  cursor: pointer;
+  padding: 10px;
 }
 </style>

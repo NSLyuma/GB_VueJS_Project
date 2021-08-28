@@ -1,10 +1,7 @@
 <template>
-  <div class="list">
-    <div class="item" v-for="(item, idx) in list" :key="idx">
-      <span
-        >{{ item.id }}. {{ item.date }} {{ item.category }}
-        {{ item.value }}</span
-      >
+  <div>
+    <div v-for="(item, i) in list" :key="i">
+      {{ item.id }}. {{ item.date }} {{ item.category }} {{ item.value }}
     </div>
   </div>
 </template>
