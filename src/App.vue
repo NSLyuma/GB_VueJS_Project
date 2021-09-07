@@ -1,51 +1,25 @@
 <template>
   <div id="app">
-    <header>My personal costs</header>
-    <AddPaymentForm @addItem="addNewData" />
-    <AddCategoryForm />
-    <PaymentsDisplay :list="currentItems" />
-    <div>Total value: {{ getTotalValue }}</div>
-    <Pagination
-      :listLength="getPaymentsList.length"
-      :currentPage="cur"
-      :numberOfItems="num"
-      @onClick="changePage"
-    />
+    <div class="page-link">
+      <router-link to="/dashboard">Dashboard</router-link> /
+      <router-link to="/about">About</router-link> /
+      <button @click="goToPage(404)">404</button>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import { mapMutations, mapGetters, mapActions } from "vuex";
-import AddCategoryForm from "./components/AddCategoryForm.vue";
-import AddPaymentForm from "./components/AddPaymentForm.vue";
-import Pagination from "./components/Pagination.vue";
-import PaymentsDisplay from "./components/PaymentsDisplay.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
-  components: { PaymentsDisplay, AddPaymentForm, Pagination, AddCategoryForm },
-  data() {
-    return {
-      paymentsList: [],
-      num: 5,
-      cur: 1,
-    };
-  },
   methods: {
-    ...mapMutations(["setPaymentsListData", "addDataToPaymentsList"]),
     ...mapActions(["fetchPaymentsData"]),
-    addNewData(newItem) {
-      this.addDataToPaymentsList(newItem);
-    },
-    changePage(page) {
-      this.cur = page;
-    },
-  },
-  computed: {
-    ...mapGetters(["getPaymentsList", "getTotalValue"]),
-    currentItems() {
-      const { cur, num } = this;
-      return this.getPaymentsList.slice(num * (cur - 1), num * (cur - 1) + num);
+    goToPage(pageName) {
+      this.$router.push({
+        name: pageName,
+      });
     },
   },
   created() {

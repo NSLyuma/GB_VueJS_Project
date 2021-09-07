@@ -7,7 +7,7 @@
       </option>
     </select>
     <input type="text" v-model.number="value" />
-    <button @click="addNewItem">Add new cost</button>
+    <button @click="addNewItem" :disabled="!category">Add new cost</button>
   </div>
 </template>
 
@@ -50,8 +50,12 @@ export default {
       return this.getCategoryList;
     },
   },
-  created() {
-    this.fetchCategoryList();
+  async created() {
+    await this.fetchCategoryList();
+    if (this.$route.name === "AddPaymentForm") {
+      this.category = this.$route.params.category || "";
+      this.value = Number(this.$route.query?.value) || 0;
+    }
   },
 };
 </script>
