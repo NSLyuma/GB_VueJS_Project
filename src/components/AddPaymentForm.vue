@@ -34,7 +34,7 @@ export default {
         category,
         value,
       };
-      this.$emit("addItem", data);
+      this.$store.commit("addDataToPaymentsList", data);
     },
   },
   computed: {

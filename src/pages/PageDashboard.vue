@@ -1,8 +1,8 @@
 <template>
   <div>
     <header>My personal costs</header>
-    <AddPaymentForm @addItem="addNewData" />
-    <AddCategoryForm />
+    <button @click="showPaymentFormFn">Add payment</button>
+    <button @click="showAddCategoryFormFn">Add category</button>
     <PaymentsDisplay :list="currentItems" />
     <div>Total value: {{ getTotalValue }}</div>
     <Pagination
@@ -16,8 +16,6 @@
 
 <script>
 import { mapMutations, mapGetters } from "vuex";
-import AddCategoryForm from "../components/AddCategoryForm.vue";
-import AddPaymentForm from "../components/AddPaymentForm.vue";
 import Pagination from "../components/Pagination.vue";
 import PaymentsDisplay from "../components/PaymentsDisplay.vue";
 
@@ -25,24 +23,27 @@ export default {
   name: "Dashboard",
   components: {
     PaymentsDisplay,
-    AddPaymentForm,
     Pagination,
-    AddCategoryForm,
   },
   data() {
     return {
       page: "",
       num: 5,
       cur: 1,
+      showPaymentForm: false,
+      settings: {},
     };
   },
   methods: {
-    ...mapMutations(["setPaymentsListData", "addDataToPaymentsList"]),
-    addNewData(newItem) {
-      this.addDataToPaymentsList(newItem);
-    },
+    ...mapMutations(["addDataToPaymentsList"]),
     changePage(page) {
       this.cur = page;
+    },
+    showPaymentFormFn() {
+      this.$modal.show("AddPaymentForm", { header: "Add payment Form" });
+    },
+    showAddCategoryFormFn() {
+      this.$modal.show("AddCategoryForm", { header: "Add category Form" });
     },
   },
   computed: {
